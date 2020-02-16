@@ -29,13 +29,16 @@ async def greeting(ctx):
 
 @bot.command(name='roll', help='Simulates dice rolls, idiot.')
 async def roll(ctx, dice_load: str):
-    num_dice = dice_load[dice_load.index('d')]
-    num_sides = dice_load['d':]
+    dice_num = int(dice_load[:dice_load.index('d')])
+    dice_sides = int(dice_load[dice_load.index('d') + 1:])
+    #num_plus = int(dice_load[dice_load.index(' + '):])
     dice = [
-        str(random.choice(range(1, num_sides + 1)))
-        for x in range(num_dice)
+        str(random.choice(range(1, dice_sides + 1)))
+        for x in range(dice_num)
     ]
-    await ctx.send(', '.join(dice))
+    dice_sum = sum(dice)
+    #await ctx.send(', '.join(dice))
+    await ctx.send((dice_sum), (', '.join(dice)))
 
 bot.run(TOKEN)
 
