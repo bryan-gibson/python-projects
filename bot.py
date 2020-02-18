@@ -16,7 +16,7 @@ bot = commands.Bot(command_prefix='!')
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
-@bot.command(name='Hello', help='Responds with a random meme from Marnie & Friends')
+@bot.command(name='Hello', help='Responds with a random line from Marnie & Friends')
 async def greeting(ctx):
     meme_quotes = [
         'Wanna play some PoE?!',
@@ -29,16 +29,25 @@ async def greeting(ctx):
 
 @bot.command(name='roll', help='Simulates dice rolls, idiot.')
 async def roll(ctx, dice_load: str):
+    
     dice_num = int(dice_load[:dice_load.index('d')])
-    dice_sides = int(dice_load[dice_load.index('d') + 1:])
-    #num_plus = int(dice_load[dice_load.index(' + '):])
+    dice_sides = int(dice_load[dice_load.index('d') + 1:dice_load.index('+' or '-')])
+    num_offset = str(dice_load[dice_load.index('+' or '-'):])
+    dice_sum = 0
     dice = [
         str(random.choice(range(1, dice_sides + 1)))
         for x in range(dice_num)
     ]
-    dice_sum = sum(dice)
+    for _ in range(len(dice)):
+        dice_sum += int(dice[_])
+    dice_sum += int(num_offset)
     #await ctx.send(', '.join(dice))
-    await ctx.send((dice_sum), (', '.join(dice)))
+    await ctx.send("{} ([{}] {})".format(dice_sum, ', '.join(dice), num_offset))
+
+@bot.command(name='Christionary', help='Shit Chris says but no one understands.')
+async def christionary(ctx, chris_word: str):
+    if (chris_word.casefold() == "jobber"):
+        await ctx.send("Someone who loses a lot? A wrestler?")
 
 bot.run(TOKEN)
 
