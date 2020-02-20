@@ -23,13 +23,11 @@ async def greeting(ctx):
         'MICHI!',
         'Do you... Need something?'
     ]
-
     response = random.choice(meme_quotes)
     await ctx.send(response)
 
 @bot.command(name='roll', help='Simulates dice rolls, idiot.')
 async def roll(ctx, dice_load: str):
-    
     dice_num = int(dice_load[:dice_load.index('d')])
     dice_sides = int(dice_load[dice_load.index('d') + 1:dice_load.index('+' or '-')])
     num_offset = str(dice_load[dice_load.index('+' or '-') + 1:])
@@ -44,14 +42,18 @@ async def roll(ctx, dice_load: str):
     #await ctx.send(', '.join(dice))
     await ctx.send("{} ([{}] + {})".format(dice_sum, ', '.join(dice), num_offset))
 
-@bot.command(name='Christionary', help='Shit Chris says.')
+@bot.command(name='Christionary', help='Stuff Chris says.')
 async def christionary(ctx, *, chris_word: str):
     if chris_word.casefold() in ["jobber"]:
         await ctx.send("Someone who loses a lot? A wrestler?")
     if chris_word.casefold() in ["chest beefers"]:
-        await ctx.send("Boobs. <:BaldChamp:663564301809876992>")
+        await ctx.send("Needs data... <:BaldChamp:663564301809876992>")
     if chris_word.casefold() in ["I was doing a gnome"]:
-        await ctx.send("and I fell on its shaft.")
+        await ctx.send("")
+
+@bot.command(name='Poge')
+async def poge_bryant(ctx):
+    await ctx.send('https://i.imgur.com/yW3qwzp.png')
 
 bot.run(TOKEN)
 
