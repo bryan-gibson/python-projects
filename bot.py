@@ -42,6 +42,10 @@ async def roll(ctx, dice_load: str):
     #await ctx.send(', '.join(dice))
     await ctx.send("{} ([{}] + {})".format(dice_sum, ', '.join(dice), num_offset))
 
+@bot.command(name='poe', help='Searches Path of Exile wiki.')
+async def poe(ctx, search_param: str):
+    
+
 
 
 bot.run(TOKEN)
