@@ -16,18 +16,20 @@ bot = commands.Bot(command_prefix='!')
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
-@bot.command(name='hello', help='Responds with a random greeting.')
+@bot.command(name='Hello', help='Responds with a random line from "Marnie & Friends"')
 async def greeting(ctx):
-    greetings = [
-        'Hello!',
-        'Hey',
-        'How\'s it going?'
+    quotes = [
+        'Wanna play some PoE?!',
+        'MICHI!',
+        'Do you... Need something?'
     ]
-    response = random.choice(greetings)
+
+    response = random.choice(quotes)
     await ctx.send(response)
 
 @bot.command(name='roll', help='Simulates dice rolls.')
 async def roll(ctx, dice_load: str):
+    
     dice_num = int(dice_load[:dice_load.index('d')])
     dice_sides = int(dice_load[dice_load.index('d') + 1:dice_load.index('+' or '-')])
     num_offset = str(dice_load[dice_load.index('+' or '-') + 1:])
@@ -42,7 +44,12 @@ async def roll(ctx, dice_load: str):
     #await ctx.send(', '.join(dice))
     await ctx.send("{} ([{}] + {})".format(dice_sum, ', '.join(dice), num_offset))
 
-
+@bot.command(name='Christionary', help='Stuff Chris says.')
+async def christionary(ctx, *, chris_word: str):
+    if chris_word.casefold() in ["jobber"]:
+        await ctx.send("Someone who loses a lot? A wrestler?")
+    if chris_word.casefold() in ["chest beefers"]:
+        await ctx.send("Needs data... <:BaldChamp:663564301809876992>")
 
 bot.run(TOKEN)
 
