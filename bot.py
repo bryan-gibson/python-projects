@@ -3,14 +3,18 @@
 import os
 #import discord
 import random
+import pywikibot
 from dotenv import load_dotenv
 from discord.ext import commands
+#from googlesearch import search
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
 bot = commands.Bot(command_prefix='!')
+
+site = pywikibot.Site('en', '')
 
 @bot.event
 async def on_ready():
@@ -26,25 +30,45 @@ async def greeting(ctx):
     response = random.choice(greetings)
     await ctx.send(response)
 
-@bot.command(name='roll', help='Simulates dice rolls.')
-async def roll(ctx, dice_load: str):
-    dice_num = int(dice_load[:dice_load.index('d')])
-    dice_sides = int(dice_load[dice_load.index('d') + 1:dice_load.index('+' or '-')])
-    num_offset = str(dice_load[dice_load.index('+' or '-') + 1:])
-    dice_sum = 0
-    dice = [
-        str(random.choice(range(1, dice_sides + 1)))
-        for x in range(dice_num)
-    ]
-    for _ in range(len(dice)):
-        dice_sum += int(dice[_])
-    dice_sum += int(num_offset)
-    #await ctx.send(', '.join(dice))
-    await ctx.send("{} ([{}] + {})".format(dice_sum, ', '.join(dice), num_offset))
+@bot.command(name='roll', help='Simulates D&D related dice rolls.')
+async def roll(ctx, dice_load: str, *argv):
+    try:
+        print (dice_load)
+        dice_num = int(dice_load[:dice_load.index('d')])
+        dice_sides = int(dice_load[dice_load.index('d') + 1:])
+        num_op = -1
+        if len(argv) > 0:
+            num_op = argv[0]
+        print (num_op)
+        dice_sum = 0
+        dice = [
+            str(random.choice(range(1, dice_sides + 1)))
+            for x in range(dice_num)
+        ]
+        for _ in range(len(dice)):
+            dice_sum += int(dice[_])
+        if num_op != -1:
+            num_offset = argv[1]
+            if num_op == '+':
+                dice_sum += int(num_offset)
+            elif num_op == '-':
+                dice_sum -= int(num_offset)
+            else:
+                await ctx.send('Invalid parameter.')
+                return False
+            await ctx.send("You rolled a **{}** ([{}] {} {})".format(dice_sum,
+                ', '.join(dice), num_op, num_offset))
+        else:
+            await ctx.send("You rolled a **{}** ([{}])".format(dice_sum,
+                ', '.join(dice)))
+    except:
+        await ctx.send('Invalid parameter.')
 
-@bot.command(name='poe', help='Searches Path of Exile wiki.')
-async def poe(ctx, search_param: str):
-    
+#@bot.command(name='poe', help='Path of Exile related search.')
+#async def poe(ctx, poe_search: str):
+
+
+
 
 
 
