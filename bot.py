@@ -3,9 +3,13 @@
 import os
 #import discord
 import random
-import pywikibot
+import requests
+import webbrowser, sys
+import poe
+from PIL import Image
 from dotenv import load_dotenv
 from discord.ext import commands
+from bs4 import BeautifulSoup
 #from googlesearch import search
 
 load_dotenv()
@@ -14,7 +18,6 @@ GUILD = os.getenv('DISCORD_GUILD')
 
 bot = commands.Bot(command_prefix='!')
 
-site = pywikibot.Site('en', '')
 
 @bot.event
 async def on_ready():
@@ -64,10 +67,18 @@ async def roll(ctx, dice_load: str, *argv):
     except:
         await ctx.send('Invalid parameter.')
 
-#@bot.command(name='poe', help='Path of Exile related search.')
-#async def poe(ctx, poe_search: str):
+@bot.command(name='poe')
+async def poe(ctx, *argv):
+    if len(argv) > 1:
+        #Get address from command line input
+        search = ' '.join(argv[:])
+    webbrowser.open('https://pathofexile.gamepedia.com/' + search)
+    r = requests.get('https://pathofexile.gamepedia.com/' + search)
+    
 
 
+def path_scrape(search):
+    print("Nothing")
 
 
 
